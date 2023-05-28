@@ -1,45 +1,83 @@
-def job_scheduling(deadlines, profits):
-    # Combine the deadlines and profits into a list of (deadline, profit) tuples
-    jobs = list(zip(deadlines, profits))
+import java.util.Scanner;
 
-    # Sort the jobs in descending order of profits
-    jobs.sort(key=lambda x: x[1], reverse=True)
+import java.util.Scanner;
+public class FCFS {
+	public static void main(String[] args)
+	{
+		int n;
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter the Number of Processes: ");
+		n=sc.nextInt();
+		
+		int at[]= new int[n];
+		for(int i=0;i<n;i++)
+		{
+			System.out.print("Enter the Arrival time: ");
+			at[i]=sc.nextInt();
+		}
+		
+		int bt[]= new int[n];
+		for(int i=0;i<n;i++)
+		{
+			System.out.print("Enter the Burst time: ");
+			bt[i]=sc.nextInt();
+		}
+		
+		//completion time logic
+		int ct[] = new int[n];
+		for(int i=0; i<n; i++)
+		{
+			if(i==0)
+			{
+				ct[i] = at[i] +bt[i];
+			}
+			else
+			{
+				if(at[i]>ct[i-1])
+				{
+					ct[i] = at[i]+bt[i];
+				}
+				else
+					ct[i]=ct[i-1]+bt[i];
+			}
+		}
+		
+		// turn around time logic
+		int tat[]= new int[n];
+		for(int i=0;i<n;i++)
+		{
+			tat[i]=ct[i]-at[i];
+		}
+		
+		int wt[]= new int[n];
+		for(int i=0;i<n;i++)
+		{
+			wt[i]=tat[i]-bt[i];
+		}
+		
+		System.out.println();
+		System.out.println("process No.\tArrival Time\tBurst Time\tCompletion Time\t"
+				+ "TurnAroundTime\tWaitingTime");
+		System.out.println("--------------------------------------------------------"
+				+ "---------------------------");
+		
+		float total_tat=0;
+		float total_wt=0;
+		
+		for(int i=0; i<n; i++)
+		{
+			System.out.print((i+1) + "\t\t"+ at[i]+ "\t\t" +bt[i] + "\t\t" +ct[i] + "\t\t" + tat[i] + "\t\t" +wt[i]);
+			
+			System.out.println();
+			total_tat += tat[i];
+			
+			
+			total_wt += wt[i];
+		}
+		
+		System.out.println("Average Turn Around Time: "+ total_tat/n);
+		System.out.println("Average Waiting Time: "+ total_wt/n);
 
-    # Find the maximum deadline among all jobs
-    max_deadline = max(deadlines)
-
-    # Create a list to keep track of the scheduled jobs
-    schedule = [None] * max_deadline
-
-    # Schedule the jobs
-    total_profit = 0
-    for deadline, profit in jobs:
-        # Find the latest available slot before the deadline
-        slot = deadline - 1
-        while slot >= 0 and schedule[slot] is not None:
-            slot -= 1
-
-        # If a slot is available, schedule the job
-        if slot >= 0:
-            schedule[slot] = profit
-            total_profit += profit
-
-    return total_profit
-
-
-# Take input from the user
-num_jobs = int(input("Enter the number of jobs: "))
-deadlines = []
-profits = []
-
-for i in range(num_jobs):
-    deadline = int(input(f"Enter the deadline for job {i + 1}: "))
-    profit = int(input(f"Enter the profit for job {i + 1}: "))
-    deadlines.append(deadline)
-    profits.append(profit)
-
-# Call the job scheduling function
-max_profit = job_scheduling(deadlines, profits)
-
-# Print the maximum profit
-print("Maximum Profit:", max_profit)
+	}
+}
