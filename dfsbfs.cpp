@@ -81,3 +81,25 @@ int main(){
   }
   return 0;
 }
+
+//output
+/*
+Enter total number of nodes: 5
+Enter total number of edges: 6
+Enter edges (First start node then destination node, separated by enter key):-
+Enter edge: 0
+1
+Enter edge: 0
+2
+Enter edge: 1
+2
+Enter edge: 1
+3
+Enter edge: 2
+4
+Enter edge: 3
+4
+
+Enter 1 to implement DFS and 2 to implement BFS: 1
+Path for DFS: 0 1 2 4 3
+*/
